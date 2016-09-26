@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wabao.service.dao.HavebookDao">
+
+	<resultMap id="BASE-RESULT" type="com.wabao.service.bean.Havebook">
+		<result property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="bookname" column="bookname" />
+		<result property="beizhu" column="beizhu" />
+	</resultMap>
+	
+	<delete id="deleteHavebookById">
+		DELETE FROM havebook WHERE id = #{id}
+	</delete>
+	
+	<select id="findHavebookById" resultMap="BASE-RESULT">
+		SELECT 
+			* 
+		FROM 
+			havebook
+		WHERE
+			id = #{id}
+	</select>
+	
+	<select id="getHavebookCount" parameterType="map" resultType="int">
+		SELECT 
+			count(*)
+		FROM 
+			havebook
+		<where>
+  			<if test="id!=null">
+  				 id = #{id}
+  			</if>
+  			<if test="username!=null">
+  				AND username = #{username}
+  			</if>
+  			<if test="bookname!=null">
+  				AND bookname = #{bookname}
+  			</if>
+  			<if test="beizhu!=null">
+  				AND beizhu = #{beizhu}
+  			</if>
+		</where>
+	</select>
+	
+	<select id="findHavebooksByPage" parameterType="map" resultMap="BASE-RESULT">
+		SELECT 
+			* 
+		FROM 
+			havebook
+		<where>
+  			<if test="param.id!=null">
+  				 id = #{param.id}
+  			</if>
+  			<if test="param.username!=null">
+  				AND username = #{param.username}
+  			</if>
+  			<if test="param.bookname!=null">
+  				AND bookname = #{param.bookname}
+  			</if>
+  			<if test="param.beizhu!=null">
+  				AND beizhu = #{param.beizhu}
+  			</if>
+		</where>
+		LIMIT 
+			#{offset},#{rows}
+	</select>
+	
+  	<insert id="insert" parameterType="com.wabao.service.bean.Havebook">
+  		INSERT INTO havebook ( 
+			`id`,`username`,`bookname`,`beizhu`			
+  		) VALUES (
+			#{id},#{username},#{bookname},#{beizhu}			
+  		)   
+    	<selectKey resultType="Integer" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	 
+  	 
+</mapper>

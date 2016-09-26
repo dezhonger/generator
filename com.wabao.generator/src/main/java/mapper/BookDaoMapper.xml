@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wabao.service.dao.BookDao">
+
+	<resultMap id="BASE-RESULT" type="com.wabao.service.bean.Book">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="info" column="info" />
+	</resultMap>
+	
+	<delete id="deleteBookById">
+		DELETE FROM book WHERE id = #{id}
+	</delete>
+	
+	<select id="findBookById" resultMap="BASE-RESULT">
+		SELECT 
+			* 
+		FROM 
+			book
+		WHERE
+			id = #{id}
+	</select>
+	
+	<select id="getBookCount" parameterType="map" resultType="int">
+		SELECT 
+			count(*)
+		FROM 
+			book
+		<where>
+  			<if test="id!=null">
+  				 id = #{id}
+  			</if>
+  			<if test="name!=null">
+  				AND name = #{name}
+  			</if>
+  			<if test="price!=null">
+  				AND price = #{price}
+  			</if>
+  			<if test="info!=null">
+  				AND info = #{info}
+  			</if>
+		</where>
+	</select>
+	
+	<select id="findBooksByPage" parameterType="map" resultMap="BASE-RESULT">
+		SELECT 
+			* 
+		FROM 
+			book
+		<where>
+  			<if test="param.id!=null">
+  				 id = #{param.id}
+  			</if>
+  			<if test="param.name!=null">
+  				AND name = #{param.name}
+  			</if>
+  			<if test="param.price!=null">
+  				AND price = #{param.price}
+  			</if>
+  			<if test="param.info!=null">
+  				AND info = #{param.info}
+  			</if>
+		</where>
+		LIMIT 
+			#{offset},#{rows}
+	</select>
+	
+  	<insert id="insert" parameterType="com.wabao.service.bean.Book">
+  		INSERT INTO book ( 
+			`id`,`name`,`price`,`info`			
+  		) VALUES (
+			#{id},#{name},#{price},#{info}			
+  		)   
+    	<selectKey resultType="Integer" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	 
+  	 
+</mapper>

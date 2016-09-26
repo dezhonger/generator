@@ -1,0 +1,5 @@
+	result.setId(param.getId());
+	result.setName(param.getName());
+	result.setUrl(param.getUrl());
+	result.setPicture(param.getPicture());
+	result.setComment(param.getComment());

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wabao.service.dao.UserdbDao">
+
+	<resultMap id="BASE-RESULT" type="com.wabao.service.bean.Userdb">
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="id" column="id" />
+	</resultMap>
+	
+	<delete id="deleteUserdbById">
+		DELETE FROM userdb WHERE id = #{id}
+	</delete>
+	
+	<select id="findUserdbById" resultMap="BASE-RESULT">
+		SELECT 
+			* 
+		FROM 
+			userdb
+		WHERE
+			id = #{id}
+	</select>
+	
+	<select id="getUserdbCount" parameterType="map" resultType="int">
+		SELECT 
+			count(*)
+		FROM 
+			userdb
+		<where>
+  			<if test="username!=null">
+  				 username = #{username}
+  			</if>
+  			<if test="password!=null">
+  				AND password = #{password}
+  			</if>
+  			<if test="id!=null">
+  				AND id = #{id}
+  			</if>
+		</where>
+	</select>
+	
+	<select id="findUserdbsByPage" parameterType="map" resultMap="BASE-RESULT">
+		SELECT 
+			* 
+		FROM 
+			userdb
+		<where>
+  			<if test="param.username!=null">
+  				 username = #{param.username}
+  			</if>
+  			<if test="param.password!=null">
+  				AND password = #{param.password}
+  			</if>
+  			<if test="param.id!=null">
+  				AND id = #{param.id}
+  			</if>
+		</where>
+		LIMIT 
+			#{offset},#{rows}
+	</select>
+	
+  	<insert id="insert" parameterType="com.wabao.service.bean.Userdb">
+  		INSERT INTO userdb ( 
+			`username`,`password`,`id`			
+  		) VALUES (
+			#{username},#{password},#{id}			
+  		)   
+    	<selectKey resultType="Integer" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	 
+  	 
+</mapper>

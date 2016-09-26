@@ -1,0 +1,4 @@
+	result.setId(param.getId());
+	result.setUsername(param.getUsername());
+	result.setBookid(param.getBookid());
+	result.setBookname(param.getBookname());

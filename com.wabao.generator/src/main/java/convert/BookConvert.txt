@@ -1,0 +1,4 @@
+	result.setId(param.getId());
+	result.setName(param.getName());
+	result.setPrice(param.getPrice());
+	result.setInfo(param.getInfo());

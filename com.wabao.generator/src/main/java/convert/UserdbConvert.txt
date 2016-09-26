@@ -1,0 +1,3 @@
+	result.setUsername(param.getUsername());
+	result.setPassword(param.getPassword());
+	result.setId(param.getId());

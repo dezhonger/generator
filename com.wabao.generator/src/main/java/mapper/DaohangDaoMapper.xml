@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wabao.service.dao.DaohangDao">
+
+	<resultMap id="BASE-RESULT" type="com.wabao.service.bean.Daohang">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="url" column="url" />
+		<result property="picture" column="picture" />
+		<result property="comment" column="comment" />
+	</resultMap>
+	
+	<delete id="deleteDaohangById">
+		DELETE FROM daohang WHERE id = #{id}
+	</delete>
+	
+	<select id="findDaohangById" resultMap="BASE-RESULT">
+		SELECT 
+			* 
+		FROM 
+			daohang
+		WHERE
+			id = #{id}
+	</select>
+	
+	<select id="getDaohangCount" parameterType="map" resultType="int">
+		SELECT 
+			count(*)
+		FROM 
+			daohang
+		<where>
+  			<if test="id!=null">
+  				 id = #{id}
+  			</if>
+  			<if test="name!=null">
+  				AND name = #{name}
+  			</if>
+  			<if test="url!=null">
+  				AND url = #{url}
+  			</if>
+  			<if test="picture!=null">
+  				AND picture = #{picture}
+  			</if>
+  			<if test="comment!=null">
+  				AND comment = #{comment}
+  			</if>
+		</where>
+	</select>
+	
+	<select id="findDaohangsByPage" parameterType="map" resultMap="BASE-RESULT">
+		SELECT 
+			* 
+		FROM 
+			daohang
+		<where>
+  			<if test="param.id!=null">
+  				 id = #{param.id}
+  			</if>
+  			<if test="param.name!=null">
+  				AND name = #{param.name}
+  			</if>
+  			<if test="param.url!=null">
+  				AND url = #{param.url}
+  			</if>
+  			<if test="param.picture!=null">
+  				AND picture = #{param.picture}
+  			</if>
+  			<if test="param.comment!=null">
+  				AND comment = #{param.comment}
+  			</if>
+		</where>
+		LIMIT 
+			#{offset},#{rows}
+	</select>
+	
+  	<insert id="insert" parameterType="com.wabao.service.bean.Daohang">
+  		INSERT INTO daohang ( 
+			`id`,`name`,`url`,`picture`,`comment`			
+  		) VALUES (
+			#{id},#{name},#{url},#{picture},#{comment}			
+  		)   
+    	<selectKey resultType="Integer" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	 
+  	 
+</mapper>
