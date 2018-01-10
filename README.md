@@ -2,4 +2,4 @@
 generate sqlmappers and javabeans etc.
 
 
-gen bean dao result mapper tool.
+gen: bean dao result mapper tool.
